@@ -30,7 +30,7 @@ In the following examples we'll assume we have the following state:
 const state = {
     name: {
         first: 'James',
-        surname: 'Bradfield';
+        surname: 'Bradfield'
     },
     age: 46,
     songs: ['A Design For Life', 'Motorcycle Emptiness', 'Generation Terrorists'],
@@ -48,7 +48,7 @@ We can use the `set` helper to modify properties on the `age` literal:
 apply(state)('age', set(47));
 ```
 
-Furthermore we're able to able to use the `set` function for adding properties to the `name` object:
+Furthermore we're able to use the `set` function for adding properties to the `name` object:
 
 ```javascript
 apply(state)('name.middle', set('Dean'));
@@ -77,5 +77,30 @@ You can also pass multiple arguments to the `remove` function &mdash; however if
 ```javascript
 apply(state)('albums', remove({ name: 'Everything Must Go' }, { released: 1994 }));
 ```
+
+We can also modify, add or remove items in an array at a given index.
+
+To modify an array item or object at specific index we can use `setAtIndex` function:
+```javascript
+apply(state)('songs', setAtIndex('Recuerda', 1));
+apply(state)('albums', setAtIndex({ name: 'Even in Exile', released: 2020 }, 2));
+```
+
+We can also add an item to the `songs` array at a specific index using `addAtIndex` function:
+```javascript
+apply(state)('songs', addAtIndex('Recuerda', 1));
+```
+
+Similarly we can add an object to `albums` array at specific index:
+```javascript
+apply(state)('albums', addAtIndex({ name: 'Even in Exile', released: 2020 }, 2));
+```
+
+We can also remove an item or object at a specific index using `removeAtIndex` function:
+```javascript
+apply(state)('songs', removeAtIndex(1));
+apply(state)('albums', removeAtIndex(2));
+```
+
 
 :bulb: [Have an idea](https://github.com/Wildhoney/Redecorate/issues/new) for Redecorate's helper functions?

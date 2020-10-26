@@ -84,3 +84,44 @@ export function remove(...x) {
 
     };
 }
+
+export function setAtIndex(x, i) {
+    return cursor =>{
+        switch (type(cursor)) {
+
+            case 'array':
+                return  [...cursor.slice(0, Number(i)), x, ...cursor.slice(Number(i) + 1)]       
+            default:
+                return cursor;
+
+        }     
+    }
+}
+
+export function addAtIndex(x,i) {
+    return cursor =>{
+        switch (type(cursor)) {
+
+            case 'array':
+                return  [...cursor.slice(0, Number(i)), x, ...cursor.slice(Number(i))]       
+            default:
+                return cursor;
+
+        }     
+    }
+}
+
+export function removeAtIndex(i) {   
+    return cursor =>{
+
+        switch (type(cursor)) {
+
+            case 'array':
+                return  [...cursor.slice(0, Number(i)), ...cursor.slice(Number(i) + 1)]       
+            default:
+                return cursor;
+
+        }     
+    };
+}
+

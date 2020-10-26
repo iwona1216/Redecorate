@@ -1,5 +1,5 @@
 import test from 'ava';
-import {apply, set, assign, add, remove} from '../dist/redecorate';
+import {apply, set, assign, add, remove, addAtIndex, setAtIndex, removeAtIndex } from '../dist/redecorate';
 
 const state = {
     name: { first: 'Adam', last: 'Timberlake' },
@@ -65,6 +65,68 @@ test('(array)  Should be able to remove an item from a list', t => {
     t.deepEqual(func, expected);
     t.deepEqual(helper, expected);
 
+});
+
+test('(array)  Should be able to update an item in a list at given index', t => {
+    const index = 1;
+
+    const expected = {
+        ...state,
+        countries: {
+            ...state.countries,
+            all: [...state.countries.all.slice(0, index),
+                'Barcelona',
+            ...state.countries.all.slice(index + 1)
+            ]
+        }
+    };    
+
+    const func = apply(state)('countries.all', cursor => [...cursor.slice(0, index), 'Barcelona', ...cursor.slice(index + 1)]);
+    const helper = apply(state)('countries.all', setAtIndex('Barcelona', index));    
+
+    t.deepEqual(func, expected);
+    t.deepEqual(helper, expected);
+});
+
+test('(array)  Should be able to push an item onto a list at given index', t => {
+    const index = 1;
+
+    const expected = {
+        ...state,
+        countries: {
+            ...state.countries,
+            all: [...state.countries.all.slice(0, index),
+                'Barcelona',
+            ...state.countries.all.slice(index)
+            ]
+        }
+    };    
+
+    const func = apply(state)('countries.all', cursor => [...cursor.slice(0, index), 'Barcelona', ...cursor.slice(index)]);
+    const helper = apply(state)('countries.all', addAtIndex('Barcelona', index));    
+
+    t.deepEqual(func, expected);
+    t.deepEqual(helper, expected);
+});
+
+test('(array)  Should be able to remove an item from a list at given index', t => {
+    const index = 1;
+
+    const expected = {
+        ...state,
+        countries: {
+            ...state.countries,
+            all: [...state.countries.all.slice(0, index),
+            ...state.countries.all.slice(index + 1)
+            ]
+        }
+    };    
+
+    const func = apply(state)('countries.all', cursor => [...cursor.slice(0, index), ...cursor.slice(index + 1)]);
+    const helper = apply(state)('countries.all', removeAtIndex(index));    
+
+    t.deepEqual(func, expected);
+    t.deepEqual(helper, expected);
 });
 
 test('(object) Should be able to add multiple items to the object', t => {
